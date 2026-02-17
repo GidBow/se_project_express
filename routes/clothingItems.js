@@ -68,4 +68,38 @@ router.delete("/items/:itemId", async (req, res) => {
   res.send(`Clothing item ${deletedItem[0].name} deleted successfully`);
 });
 
+router.put("/items/:itemId/likes", async (req, res) => {
+  try {
+    const item = await clothingItems.findById(req.params.itemId);
+    if (!item) {
+      res.status(404).send(`This clothing item doesn't exist`);
+      return;
+    }
+
+    item.likes += 1;
+    await item.save();
+
+    res.send(`Clothing item ${item.name} liked successfully`);
+  } catch (error) {
+    res.status(500).send("Error liking clothing item");
+  }
+});
+
+router.delete("/items/:itemId/likes", async (req, res) => {
+  try {
+    const item = await clothingItems.findById(req.params.itemId);
+    if (!item) {
+      res.status(404).send(`This clothing item doesn't exist`);
+      return;
+    }
+
+    item.likes -= 1;
+    await item.save();
+
+    res.send(`Clothing item ${item.name} disliked successfully`);
+  } catch (error) {
+    res.status(500).send("Error disliking clothing item");
+  }
+});
+
 module.exports = router;
