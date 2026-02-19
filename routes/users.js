@@ -1,6 +1,4 @@
 const router = require("express").Router();
-const users = require("../models/users");
-const { BAD_REQUEST, NOT_FOUND, SERVER_ERROR } = require("../utils/errors");
 const {
   getUsers,
   getUsersById,

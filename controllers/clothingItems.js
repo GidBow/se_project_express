@@ -73,7 +73,7 @@ const deleteClothingItem = (req, res) => {
     .findByIdAndDelete(req.params.itemId)
     .orFail()
     .then((item) => {
-      res.send({ message: "Clothing item deleted successfully" }); // Success!
+      res.send({ message: `Clothing item ${item.name} deleted successfully` }); // Success!
     })
     .catch((err) => {
       console.error(err); // Always log the error first!
