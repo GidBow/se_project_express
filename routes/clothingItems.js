@@ -1,105 +1,28 @@
 const router = require("express").Router();
 const clothingItems = require("../models/clothingItems");
+const {
+  getClothingItems,
+  getClothingItemsById,
+  createClothingItem,
+  deleteClothingItem,
+  likeItem,
+  dislikeItem,
+} = require("../controllers/clothingItems");
 
 //get clothing item from schema
-router.get("/items", async (req, res) => {
-  try {
-    const items = await clothingItems.find({});
-    res.send(items);
-  } catch (error) {
-    res.status(500).send("Error retrieving clothing items");
-  }
-});
+router.get("/items", getClothingItems);
 
 //get clothing item by id from schema
-router.get("/items/:itemId", async (req, res) => {
-  const item = await clothingItems.findById(req.params.itemId);
-  if (!item) {
-    //handles error if the clothing item doesn't exist in the schema
-    res.status(404).send(`This clothing item doesn't exist`);
-    return;
-  }
-
-  const { name, weather, imageUrl } = item;
-
-  res.send(
-    `Clothing item ${name}, suitable for ${weather} weather, image URL: ${imageUrl}`
-  );
-});
+router.get("/items/:itemId", getClothingItemsById);
 
 // add clothing items to the schema
-router.post("/items", (req, res) => {
-  const { name, weather, imageUrl } = req.body;
-
-  if (!name || !weather || !imageUrl) {
-    res.send(
-      "You must provide a name, weather condition, and image URL for the clothing item"
-    );
-    return;
-  }
-
-  const newClothingItem = {
-    name,
-    weather,
-    imageUrl,
-  };
-
-  clothingItems.push(newClothingItem);
-
-  res.send(`Clothing item ${name} created successfully`);
-});
+router.post("/items", createClothingItem);
 
 //delete clothing item from schema
-router.delete("/items/:itemId", async (req, res) => {
-  try {
-    const deletedItem = await clothingItems.findByIdAndDelete(
-      req.params.itemId
-    );
-    if (!deletedItem) {
-      res.status(404).send(`This clothing item doesn't exist`);
-      return;
-    }
-  } catch (error) {
-    res.status(500).send("Error deleting clothing item");
-  }
+router.delete("/items/:itemId", deleteClothingItem);
 
-  const deletedItem = clothingItems.splice(req.params.itemId, 1);
+router.put("/items/:itemId/likes", likeItem);
 
-  res.send(`Clothing item ${deletedItem[0].name} deleted successfully`);
-});
-
-router.put("/items/:itemId/likes", async (req, res) => {
-  try {
-    const item = await clothingItems.findById(req.params.itemId);
-    if (!item) {
-      res.status(404).send(`This clothing item doesn't exist`);
-      return;
-    }
-
-    item.likes += 1;
-    await item.save();
-
-    res.send(`Clothing item ${item.name} liked successfully`);
-  } catch (error) {
-    res.status(500).send("Error liking clothing item");
-  }
-});
-
-router.delete("/items/:itemId/likes", async (req, res) => {
-  try {
-    const item = await clothingItems.findById(req.params.itemId);
-    if (!item) {
-      res.status(404).send(`This clothing item doesn't exist`);
-      return;
-    }
-
-    item.likes -= 1;
-    await item.save();
-
-    res.send(`Clothing item ${item.name} disliked successfully`);
-  } catch (error) {
-    res.status(500).send("Error disliking clothing item");
-  }
-});
+router.delete("/items/:itemId/likes", dislikeItem);
 
 module.exports = router;
