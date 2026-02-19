@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const clothingItems = require("../models/clothingItems");
+
 const {
   getClothingItems,
   getClothingItemsById,
@@ -9,16 +9,16 @@ const {
   dislikeItem,
 } = require("../controllers/clothingItems");
 
-//get clothing item from schema
+// get clothing item from schema
 router.get("/items", getClothingItems);
 
-//get clothing item by id from schema
+// get clothing item by id from schema
 router.get("/items/:itemId", getClothingItemsById);
 
 // add clothing items to the schema
 router.post("/items", createClothingItem);
 
-//delete clothing item from schema
+// delete clothing item from schema
 router.delete("/items/:itemId", deleteClothingItem);
 
 router.put("/items/:itemId/likes", likeItem);

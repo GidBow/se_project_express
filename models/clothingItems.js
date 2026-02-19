@@ -3,20 +3,20 @@ const validator = require("validator");
 
 const clothingItemSchema = new mongoose.Schema({
   name: {
-    //clothing item name
+    // clothing item name
     type: String,
     required: true,
     minlength: 2,
     maxlength: 30,
   },
   weather: {
-    //assigned weather condition for the clothing item
+    // assigned weather condition for the clothing item
     type: String,
     required: true,
-    enum: ["hot", "warm", "cold"], //enum validator to ensure the weather field can only be one of the specified values
+    enum: ["hot", "warm", "cold"], // enum validator to ensure the weather field can only be one of the specified values
   },
   imageUrl: {
-    type: String, //string because typing in the image URL
+    type: String, // string because typing in the image URL
     required: true,
     validate: {
       validator(value) {
@@ -26,17 +26,17 @@ const clothingItemSchema = new mongoose.Schema({
     },
   },
   owner: {
-    type: mongoose.Schema.Types.ObjectId, //this is a full explicit path to objectId
+    type: mongoose.Schema.Types.ObjectId, // this is a full explicit path to objectId
     required: true,
-    ref: "User", //ref- this is how we establish the relationship between clothing items and users.
+    ref: "User", // ref- this is how we establish the relationship between clothing items and users.
   },
   likes: {
     type: [mongoose.Schema.Types.ObjectId],
-    default: [], //empty array to start since hasn't been liked yet.
+    default: [], // empty array to start since hasn't been liked yet.
     ref: "User",
   },
   createdAt: {
-    //timestamp for when the clothing item was created
+    // timestamp for when the clothing item was created
     type: Date,
     default: Date.now,
   },
