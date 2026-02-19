@@ -93,41 +93,4 @@ const deleteUser = (req, res) => {
     });
 };
 
-const updateUser = (req, res) => {
-  User.findByIdAndUpdate(req.params.userId, req.body, {
-    new: true,
-    runValidators: true,
-  })
-    .orFail()
-    .then((user) => {
-      res.send(user);
-    })
-    .catch((err) => {
-      console.error(err);
-
-      if (err.name === "ValidationError") {
-        return res.status(BAD_REQUEST).send({
-          message: "Invalid data provided",
-        });
-      }
-
-      if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND).send({
-          message: "User not found",
-        });
-      }
-
-      if (err.name === "CastError") {
-        return res.status(BAD_REQUEST).send({
-          message: "Invalid user ID format",
-        });
-      }
-
-      // Default to server error
-      return res.status(SERVER_ERROR).send({
-        message: "An error has occurred on the server",
-      });
-    });
-};
-
-module.exports = { createUser, deleteUser, updateUser, getUsers, getUsersById };
+module.exports = { createUser, deleteUser, getUsers, getUsersById };

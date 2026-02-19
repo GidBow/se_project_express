@@ -21,6 +21,10 @@ app.use((req, res, next) => {
 app.use(clothingItemsRouter);
 app.use(usersRouter);
 
+app.use((req, res) => {
+  res.status(NOT_FOUND).send({ message: "Requested resource not found" });
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
