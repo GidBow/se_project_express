@@ -1,4 +1,5 @@
-const router = require("express").Router();
+const router = require("express").Router(); // Create a new router instance
+
 const {
   getUsers,
   getUsersById,
@@ -6,12 +7,12 @@ const {
   deleteUser,
 } = require("../controllers/users");
 
-router.get("/users", getUsers);
+router.get("/", getUsers);
 
-router.get("/users/:userId", getUsersById);
+router.get("/:userId", getUsersById);
 
-router.post("/users", createUser);
+router.post("/", createUser);
 
-router.delete("/users/:userId", deleteUser);
+router.delete("/:userId", deleteUser);
 
 module.exports = router;

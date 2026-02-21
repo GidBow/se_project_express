@@ -47,7 +47,7 @@ const getUsersById = (req, res) => {
 const createUser = (req, res) => {
   User.create(req.body)
     .then((user) => {
-      res.send(user); // Success!
+      res.status(201).send(user); // Success!
     })
     .catch((err) => {
       console.error(err); // Always log the error first!

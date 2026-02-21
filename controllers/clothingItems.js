@@ -50,7 +50,7 @@ const createClothingItem = (req, res) => {
   clothingItems
     .create({ ...req.body, owner: req.user._id })
     .then((item) => {
-      res.send(item); // Success!
+      res.status(201).send(item); // Success!
     })
     .catch((err) => {
       console.error(err); // Always log the error first!
@@ -73,7 +73,7 @@ const deleteClothingItem = (req, res) => {
     .findByIdAndDelete(req.params.itemId)
     .orFail()
     .then((item) => {
-      res.send({ message: `Clothing item ${item.name} deleted successfully` }); // Success!
+      res.send({ item }); // Success!
     })
     .catch((err) => {
       console.error(err); // Always log the error first!

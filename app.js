@@ -9,9 +9,6 @@ const { PORT = 3001 } = process.env;
 
 app.use(express.json());
 
-const clothingItemsRouter = require("./routes/clothingItems");
-const usersRouter = require("./routes/users");
-
 app.use((req, res, next) => {
   req.user = {
     _id: "698e6534f32e05800403030d",
@@ -19,8 +16,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(clothingItemsRouter);
-app.use(usersRouter);
+const routes = require("./routes");
+app.use(routes);
 
 app.use((req, res) => {
   res.status(NOT_FOUND).send({ message: "Requested resource not found" });

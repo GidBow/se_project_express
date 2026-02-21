@@ -32,8 +32,9 @@ const clothingItemSchema = new mongoose.Schema({
   },
   likes: {
     type: [mongoose.Schema.Types.ObjectId],
+    required: true,
     default: [], // empty array to start since hasn't been liked yet.
-    ref: "User",
+    ref: "user",
   },
   createdAt: {
     // timestamp for when the clothing item was created
@@ -42,4 +43,4 @@ const clothingItemSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("ClothingItem", clothingItemSchema);
+module.exports = mongoose.model("clothingItem", clothingItemSchema);

@@ -10,19 +10,19 @@ const {
 } = require("../controllers/clothingItems");
 
 // get clothing item from schema
-router.get("/items", getClothingItems);
+router.get("/", getClothingItems);
 
 // get clothing item by id from schema
-router.get("/items/:itemId", getClothingItemsById);
+router.get("/:itemId", getClothingItemsById);
 
 // add clothing items to the schema
-router.post("/items", createClothingItem);
+router.post("/", createClothingItem);
 
 // delete clothing item from schema
-router.delete("/items/:itemId", deleteClothingItem);
+router.delete("/:itemId", deleteClothingItem);
 
-router.put("/items/:itemId/likes", likeItem);
+router.put("/:itemId/likes", likeItem);
 
-router.delete("/items/:itemId/likes", dislikeItem);
+router.delete("/:itemId/likes", dislikeItem);
 
 module.exports = router;
