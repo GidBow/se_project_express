@@ -28,7 +28,7 @@ const clothingItemSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId, // this is a full explicit path to objectId
     required: true,
-    ref: "User", // ref- this is how we establish the relationship between clothing items and users.
+    ref: "user", // ref- this is how we establish the relationship between clothing items and users.
   },
   likes: {
     type: [mongoose.Schema.Types.ObjectId],
