@@ -1,4 +1,10 @@
-const { BAD_REQUEST, NOT_FOUND, SERVER_ERROR } = require("../utils/errors");
+const bcryptjs = require("bcryptjs");
+const {
+  BAD_REQUEST,
+  CONFLICT,
+  NOT_FOUND,
+  SERVER_ERROR,
+} = require("../utils/errors");
 const User = require("../models/users");
 
 const getUsers = (req, res) => {
@@ -45,12 +51,27 @@ const getUsersById = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  User.create(req.body)
+  const { email, password } = req.body;
+
+  bcryptjs
+    .hash(password, 10)
+    .then((hashedPassword) => {
+      return User.create({
+        ...req.body,
+        password: hashedPassword,
+      });
+    })
     .then((user) => {
       res.status(201).send(user); // Success!
     })
     .catch((err) => {
       console.error(err); // Always log the error first!
+
+      if (err.code === 11000) {
+        return res.status(CONFLICT).send({
+          message: "Email already in use",
+        });
+      }
 
       if (err.name === "ValidationError") {
         return res.status(BAD_REQUEST).send({
