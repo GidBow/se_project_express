@@ -9,13 +9,6 @@ const { PORT = 3001 } = process.env;
 
 app.use(express.json());
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: "698e6534f32e05800403030d",
-  };
-  next();
-});
-
 const routes = require("./routes");
 app.use(routes);
 
