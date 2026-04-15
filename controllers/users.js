@@ -25,8 +25,8 @@ const getUsers = (req, res) => {
     });
 };
 
-const getUsersById = (req, res) => {
-  User.findById(req.params.userId)
+const getCurrentUser = (req, res) => {
+  User.findById(req.user._id)
     .orFail()
     .then((user) => {
       res.send(user); // Success!
@@ -120,7 +120,9 @@ const deleteUser = (req, res) => {
 const login = (req, res) => {
   const { email, password } = req.body;
 
-  User.findUserByCredentials(email, password)
+  User.findUserByCredentials(email, password);
+  return this.findOne({ email })
+    .select("+password")
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
@@ -137,4 +139,39 @@ const login = (req, res) => {
     });
 };
 
-module.exports = { createUser, deleteUser, getUsers, getUsersById, login };
+const updateProfile = (req, res) => {
+  const { name, avatar } = req.body;
+
+  User.findByIdAndUpdate(
+    req.user._id,
+    { name, avatar },
+    { new: true, runValidators: true }
+  )
+    .orFail()
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => {
+      console.error(err);
+
+      if (err.name === "ValidationError") {
+        return res.status(BAD_REQUEST).send({
+          message: "Invalid data provided",
+        });
+      }
+
+      // Default to server error
+      return res.status(SERVER_ERROR).send({
+        message: "An error has occurred on the server",
+      });
+    });
+};
+
+module.exports = {
+  createUser,
+  deleteUser,
+  getUsers,
+  getCurrentUser,
+  login,
+  updateProfile,
+};
