@@ -54,12 +54,7 @@ const createUser = (req, res) => {
 
   bcryptjs
     .hash(password, 10)
-    .then((hashedPassword) =>
-      User.create({
-        ...req.body,
-        password: hashedPassword,
-      })
-    )
+    .then((hashedPassword) => User.create({ ...req.body, password: hashedPassword }))
     .then((user) => res.status(201).send(user)) // Success!
     .catch((err) => {
       if (err.code === 11000) {
