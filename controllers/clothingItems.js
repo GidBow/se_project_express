@@ -13,8 +13,6 @@ const getClothingItems = (req, res) => {
       res.send(items); // Success!
     })
     .catch((err) => {
-      console.error(err); // Always log the error first!
-
       // Default to server error
       return res.status(SERVER_ERROR).send({
         message: "An error has occurred on the server",
@@ -30,8 +28,6 @@ const getClothingItemsById = (req, res) => {
       res.send(item); // Success!
     })
     .catch((err) => {
-      console.error(err); // Always log the error first!
-
       if (err.name === "DocumentNotFoundError") {
         return res.status(NOT_FOUND).send({
           message: "Clothing item not found",
@@ -58,8 +54,6 @@ const createClothingItem = (req, res) => {
       res.status(201).send(item); // Success!
     })
     .catch((err) => {
-      console.error(err); // Always log the error first!
-
       if (err.name === "ValidationError") {
         return res.status(BAD_REQUEST).send({
           message: "Invalid data provided",
@@ -89,8 +83,6 @@ const deleteClothingItem = (req, res) => {
       res.send({ item }); // Success!
     })
     .catch((err) => {
-      console.error(err); // Always log the error first!
-
       if (err.name === "DocumentNotFoundError") {
         return res.status(NOT_FOUND).send({
           message: "Clothing item not found",
@@ -120,8 +112,6 @@ const likeItem = (req, res) =>
     .orFail()
     .then((item) => res.send(item))
     .catch((err) => {
-      console.error(err); // Always log the error first!
-
       if (err.name === "DocumentNotFoundError") {
         return res.status(NOT_FOUND).send({
           message: "Clothing item not found",
@@ -150,8 +140,6 @@ const dislikeItem = (req, res) =>
     .orFail()
     .then((item) => res.send(item))
     .catch((err) => {
-      console.error(err); // Always log the error first!
-
       if (err.name === "DocumentNotFoundError") {
         return res.status(NOT_FOUND).send({
           message: "Clothing item not found",

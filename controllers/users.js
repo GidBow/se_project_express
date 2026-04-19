@@ -16,8 +16,6 @@ const getUsers = (req, res) => {
       res.send(users); // Success!
     })
     .catch((err) => {
-      console.error(err); // Always log the error first!
-
       // Default to server error
       return res.status(SERVER_ERROR).send({
         message: "An error has occurred on the server",
@@ -32,8 +30,6 @@ const getCurrentUser = (req, res) => {
       res.send(user); // Success!
     })
     .catch((err) => {
-      console.error(err); // Always log the error first!
-
       if (err.name === "DocumentNotFoundError") {
         return res.status(NOT_FOUND).send({
           message: "User not found",
@@ -66,8 +62,6 @@ const createUser = (req, res) => {
     )
     .then((user) => res.status(201).send(user)) // Success!
     .catch((err) => {
-      console.error(err); // Always log the error first!
-
       if (err.code === 11000) {
         return res.status(CONFLICT).send({
           message: "Email already in use",
@@ -94,8 +88,6 @@ const deleteUser = (req, res) => {
       res.send(user);
     })
     .catch((err) => {
-      console.error(err);
-
       if (err.name === "DocumentNotFoundError") {
         return res.status(NOT_FOUND).send({
           message: "User not found",
@@ -129,8 +121,6 @@ const login = (req, res) => {
       res.send({ token });
     })
     .catch((err) => {
-      console.error(err);
-
       return res.status(UNAUTHORIZED).send({
         message: "Incorrect email or password",
       });
@@ -150,8 +140,6 @@ const updateProfile = (req, res) => {
       res.send(user);
     })
     .catch((err) => {
-      console.error(err);
-
       if (err.name === "ValidationError") {
         return res.status(BAD_REQUEST).send({
           message: "Invalid data provided",

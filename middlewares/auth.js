@@ -18,7 +18,6 @@ const auth = (req, res, next) => {
   try {
     payload = jwt.verify(token, JWT_SECRET);
   } catch (err) {
-    console.error(err);
     return res.status(UNAUTHORIZED).send({
       message: "Invalid token",
     });
