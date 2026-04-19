@@ -4,13 +4,14 @@ const { UNAUTHORIZED } = require("../utils/errors");
 
 const auth = (req, res, next) => {
   const { authorization } = req.headers;
-  const token = authorization.replace("Bearer ", "");
 
   if (!authorization) {
     return res.status(UNAUTHORIZED).send({
       message: "Authorization header is missing",
     });
   }
+
+  const token = authorization.replace("Bearer ", "");
 
   let payload;
 

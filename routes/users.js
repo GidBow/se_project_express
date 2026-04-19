@@ -10,7 +10,7 @@ const {
 
 router.get("/me", getCurrentUser);
 router.delete("/:userId", deleteUser);
-router.patch("/me", updateProfile)
+router.patch("/me", updateProfile);
 
 
 module.exports = router;
