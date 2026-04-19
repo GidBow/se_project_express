@@ -54,7 +54,7 @@ const getCurrentUser = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  const { email, password } = req.body;
+  const { password } = req.body;
 
   bcryptjs
     .hash(password, 10)
