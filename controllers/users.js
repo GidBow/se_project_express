@@ -12,15 +12,12 @@ const { JWT_SECRET } = require("../utils/config");
 
 const getUsers = (req, res) => {
   User.find({})
-    .then((users) => {
-      res.send(users); // Success!
-    })
-    .catch((err) => {
-      // Default to server error
-      return res.status(SERVER_ERROR).send({
+    .then((users) => res.send(users))
+    .catch(() =>
+      res.status(SERVER_ERROR).send({
         message: "An error has occurred on the server",
-      });
-    });
+      })
+    );
 };
 
 const getCurrentUser = (req, res) => {
@@ -54,7 +51,9 @@ const createUser = (req, res) => {
 
   bcryptjs
     .hash(password, 10)
-    .then((hashedPassword) => User.create({ ...req.body, password: hashedPassword }))
+    .then((hashedPassword) =>
+      User.create({ ...req.body, password: hashedPassword })
+    )
     .then((user) => res.status(201).send(user)) // Success!
     .catch((err) => {
       if (err.code === 11000) {
@@ -115,11 +114,11 @@ const login = (req, res) => {
 
       res.send({ token });
     })
-    .catch((err) => {
-      return res.status(UNAUTHORIZED).send({
+    .catch(() =>
+      res.status(UNAUTHORIZED).send({
         message: "Incorrect email or password",
-      });
-    });
+      })
+    );
 };
 
 const updateProfile = (req, res) => {

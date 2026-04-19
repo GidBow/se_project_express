@@ -9,15 +9,12 @@ const clothingItems = require("../models/clothingItems");
 const getClothingItems = (req, res) => {
   clothingItems
     .find({})
-    .then((items) => {
-      res.send(items); // Success!
-    })
-    .catch((err) => {
-      // Default to server error
-      return res.status(SERVER_ERROR).send({
+    .then((items) => res.send(items))
+    .catch(() =>
+      res.status(SERVER_ERROR).send({
         message: "An error has occurred on the server",
-      });
-    });
+      })
+    );
 };
 
 const getClothingItemsById = (req, res) => {
