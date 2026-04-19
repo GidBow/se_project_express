@@ -58,15 +58,13 @@ const createUser = (req, res) => {
 
   bcryptjs
     .hash(password, 10)
-    .then((hashedPassword) => {
-      return User.create({
+    .then((hashedPassword) =>
+      User.create({
         ...req.body,
         password: hashedPassword,
-      });
-    })
-    .then((user) => {
-      res.status(201).send(user); // Success!
-    })
+      })
+    )
+    .then((user) => res.status(201).send(user)) // Success!
     .catch((err) => {
       console.error(err); // Always log the error first!
 
