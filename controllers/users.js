@@ -13,7 +13,7 @@ const { JWT_SECRET } = require("../utils/config");
 const getUsers = (req, res) => {
   User.find({})
     .then((users) => res.send(users))
-    .catch(() =>
+    .catch(
       res.status(SERVER_ERROR).send({
         message: "An error has occurred on the server",
       })
@@ -104,8 +104,7 @@ const deleteUser = (req, res) => {
 const login = (req, res) => {
   const { email, password } = req.body;
 
-  User.findUserByCredentials(email, password);
-  return this.findOne({ email })
+  User.findUserByCredentials(email, password)
     .select("+password")
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
@@ -114,7 +113,7 @@ const login = (req, res) => {
 
       res.send({ token });
     })
-    .catch(() =>
+    .catch(
       res.status(UNAUTHORIZED).send({
         message: "Incorrect email or password",
       })
