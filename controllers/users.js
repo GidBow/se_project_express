@@ -105,7 +105,7 @@ const login = (req, res) => {
   const { email, password } = req.body;
 
   User.findUserByCredentials(email, password)
-    .select("+password")
+    // .select("+password")
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
@@ -113,11 +113,24 @@ const login = (req, res) => {
 
       res.send({ token });
     })
-    .catch(
-      res.status(UNAUTHORIZED).send({
-        message: "Incorrect email or password",
-      })
-    );
+    .catch((err) => {
+      if (err.name === "DocumentNotFoundError") {
+        return res.status(NOT_FOUND).send({
+          message: "User not found",
+        });
+      }
+
+      if (err.name === "CastError") {
+        return res.status(BAD_REQUEST).send({
+          message: "Invalid user ID format",
+        });
+      }
+
+      // Default to server error
+      return res.status(SERVER_ERROR).send({
+        message: "An error has occurred on the server",
+      });
+    });
 };
 
 const updateProfile = (req, res) => {

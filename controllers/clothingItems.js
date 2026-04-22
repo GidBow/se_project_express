@@ -10,9 +10,12 @@ const getClothingItems = (req, res) => {
   clothingItems
     .find({})
     .then((items) => res.send(items))
-    .catch(() => res.status(SERVER_ERROR).send({
-      message: "An error has occurred on the server",
-    }))
+    .catch(() =>
+      res.status(SERVER_ERROR).send({
+        message: "An error has occurred on the server",
+      })
+    );
+};
 
 const getClothingItemsById = (req, res) => {
   clothingItems
