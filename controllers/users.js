@@ -53,7 +53,11 @@ const createUser = (req, res) => {
     .then((hashedPassword) =>
       User.create({ ...req.body, password: hashedPassword })
     )
-    .then((user) => res.status(201).send(user)) // Success!
+    .then((user) => {
+      const userObj = user.toObject();
+      delete userObj.password;
+      res.status(201).send(userObj);
+    })
     .catch((err) => {
       if (err.code === 11000) {
         return res.status(CONFLICT).send({
