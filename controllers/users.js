@@ -113,22 +113,15 @@ const login = (req, res) => {
       res.send({ token });
     })
     .catch((err) => {
-      if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND).send({
-          message: "User not found",
-        });
-      }
-
-      if (err.name === "CastError") {
-        return res.status(BAD_REQUEST).send({
-          message: "Invalid user ID format",
-        });
-      }
-
-      // Default to server error
-      return res.status(SERVER_ERROR).send({
-        message: "An error has occurred on the server",
-      });
+      if (err.name === "DocumentNotFoundError")
+        return res.status(NOT_FOUND).send({ message: "User not found" });
+      if (err.name === "CastError")
+        return res
+          .status(BAD_REQUEST)
+          .send({ message: "Invalid user ID format" });
+      return res
+        .status(SERVER_ERROR)
+        .send({ message: "An error has occurred on the server" });
     });
 };
 
