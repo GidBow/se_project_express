@@ -74,10 +74,10 @@ const deleteClothingItem = (req, res) => {
           message: "You do not have permission to delete this item",
         });
       }
-      return clothingItems.findByIdAndDelete(req.params.itemId);
-    })
-    .then((item) => {
-      res.send({ item }); // Success!
+
+      return clothingItems
+        .findByIdAndDelete(req.params.itemId)
+        .then((deletedItem) => res.send(deletedItem));
     })
     .catch((err) => {
       if (err.name === "DocumentNotFoundError") {
@@ -92,7 +92,6 @@ const deleteClothingItem = (req, res) => {
         });
       }
 
-      // Default to server error
       return res.status(SERVER_ERROR).send({
         message: "An error has occurred on the server",
       });
