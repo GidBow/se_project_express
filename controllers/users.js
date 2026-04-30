@@ -5,6 +5,7 @@ const {
   CONFLICT,
   NOT_FOUND,
   SERVER_ERROR,
+  UNAUTHORIZED,
 } = require("../utils/errors");
 const User = require("../models/users");
 const { JWT_SECRET } = require("../utils/config");
@@ -12,11 +13,11 @@ const { JWT_SECRET } = require("../utils/config");
 const getUsers = (req, res) => {
   User.find({})
     .then((users) => res.send(users))
-    .catch(
+    .catch(() => {
       res.status(SERVER_ERROR).send({
         message: "An error has occurred on the server",
-      })
-    );
+      });
+    });
 };
 
 const getCurrentUser = (req, res) => {
@@ -108,25 +109,17 @@ const login = (req, res) => {
   const { email, password } = req.body;
 
   User.findUserByCredentials(email, password)
-    // .select("+password")
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
       });
 
-      res.send({ token });
+      return res.send({ token });
     })
-    .catch((err) => {
-      if (err.name === "DocumentNotFoundError")
-        return res.status(NOT_FOUND).send({ message: "User not found" });
-      if (err.name === "CastError")
-        return res
-          .status(BAD_REQUEST)
-          .send({ message: "Invalid user ID format" });
-      return res
-        .status(SERVER_ERROR)
-        .send({ message: "An error has occurred on the server" });
-    });
+    .catch(() =>
+  res.status(UNAUTHORIZED).send({
+    message: "Incorrect email or password",
+  }));
 };
 
 const updateProfile = (req, res) => {
