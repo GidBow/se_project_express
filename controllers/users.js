@@ -112,7 +112,7 @@ const login = (req, res) => {
       message: "Email and password are required",
     });
     return;
-  };
+  }
     return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
