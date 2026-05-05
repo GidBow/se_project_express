@@ -21,9 +21,7 @@ const getClothingItemsById = (req, res) => {
   clothingItems
     .findById(req.params.itemId)
     .orFail()
-    .then((item) => {
-      res.send(item); // Success!
-    })
+    .then((item) => res.send(item))
     .catch((err) => {
       if (err.name === "DocumentNotFoundError") {
         return res.status(NOT_FOUND).send({
@@ -47,9 +45,7 @@ const getClothingItemsById = (req, res) => {
 const createClothingItem = (req, res) => {
   clothingItems
     .create({ ...req.body, owner: req.user._id })
-    .then((item) => {
-      res.status(201).send(item); // Success!
-    })
+    .then((item) => res.status(201).send(item))
     .catch((err) => {
       if (err.name === "ValidationError") {
         return res.status(BAD_REQUEST).send({
