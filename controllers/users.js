@@ -108,7 +108,13 @@ const deleteUser = (req, res) => {
 const login = (req, res) => {
   const { email, password } = req.body;
 
-  User.findUserByCredentials(email, password)
+  if (!email || !password) {
+    return res.status(BAD_REQUEST).send({
+      message: "Email and password are required",
+    });
+  }
+
+  return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
@@ -116,10 +122,17 @@ const login = (req, res) => {
 
       return res.send({ token });
     })
-    .catch(() =>
-  res.status(UNAUTHORIZED).send({
-    message: "Incorrect email or password",
-  }));
+    .catch((err) => {
+      if (err.message === "Unauthorized") {
+        return res.status(UNAUTHORIZED).send({
+          message: "Incorrect email or password",
+        });
+      }
+
+      return res.status(SERVER_ERROR).send({
+        message: "An error has occurred on the server",
+      });
+    });
 };
 
 const updateProfile = (req, res) => {
