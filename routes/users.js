@@ -7,9 +7,7 @@ const {
   deleteUser,
   updateProfile,
   login,
-
 } = require("../controllers/users");
-
 
 router.get("/me", getCurrentUser);
 router.delete("/:userId", deleteUser);
@@ -18,6 +16,5 @@ router.post("/", createUser);
 router.get("/", getUsers);
 
 router.post("/signin", login);
-
 
 module.exports = router;

@@ -123,12 +123,12 @@ const login = (req, res) => {
     })
     .catch((err) => {
       if (err.message === "Unauthorized") {
-        return res.status(UNAUTHORIZED).send({
+        return res.status(401).send({
           message: "Incorrect email or password",
         });
       }
 
-      return res.status(SERVER_ERROR).send({
+      return res.status(500).send({
         message: "An error has occurred on the server",
       });
     });
