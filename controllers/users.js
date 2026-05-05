@@ -107,13 +107,13 @@ const deleteUser = (req, res) => {
 
 const login = (req, res) => {
   const { email, password } = req.body;
-     if (!email || !password) {
+  if (!email || !password) {
     res.status(BAD_REQUEST).send({
       message: "Email and password are required",
     });
     return;
   }
-    return User.findUserByCredentials(email, password)
+  User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
