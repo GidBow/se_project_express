@@ -6,6 +6,7 @@ const {
   NOT_FOUND,
   SERVER_ERROR,
   UNAUTHORIZED,
+  FORBIDDEN,
 } = require("../utils/errors");
 const User = require("../models/users");
 const { JWT_SECRET } = require("../utils/config");
@@ -117,8 +118,8 @@ const login = (req, res) => {
       return res.send({ token });
     })
     .catch((err) => {
-      if (err.message === "Unauthorized") {
-        return res.status(401).send({
+      if (err.message === "BAD_REQUEST") {
+        return res.status(400).send({
           message: "Incorrect email or password",
         });
       }
