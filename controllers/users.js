@@ -108,6 +108,11 @@ const deleteUser = (req, res) => {
 
 const login = (req, res) => {
   const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(BAD_REQUEST).send({
+      message: "Email and password are required",
+    });
+  }
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
@@ -123,12 +128,12 @@ const login = (req, res) => {
           message: "Incorrect email or password",
         });
       }
-            if (err.message === "UNAUTHORIZED") {
+      if (err.message === "UNAUTHORIZED") {
         return res.status(401).send({
           message: "Incorrect email or password",
         });
       }
-            if (err.message === "NOT_FOUND") {
+      if (err.message === "NOT_FOUND") {
         return res.status(404).send({
           message: "User not found",
         });
