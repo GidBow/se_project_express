@@ -123,6 +123,16 @@ const login = (req, res) => {
           message: "Incorrect email or password",
         });
       }
+            if (err.message === "UNAUTHORIZED") {
+        return res.status(401).send({
+          message: "Incorrect email or password",
+        });
+      }
+            if (err.message === "NOT_FOUND") {
+        return res.status(404).send({
+          message: "User not found",
+        });
+      }
 
       return res.status(500).send({
         message: "An error has occurred on the server",
