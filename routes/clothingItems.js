@@ -1,5 +1,5 @@
 const router = require("express").Router();
-
+const auth = require("../middlewares/auth");
 const {
   getClothingItems,
   getClothingItemsById,
@@ -10,8 +10,12 @@ const {
 } = require("../controllers/clothingItems");
 
 // get clothing item from schema
+//Public route (no auth)
 router.get("/", getClothingItems);
 
+router.use(auth); // apply auth middleware to all routes below
+
+//protected routes (with auth)
 // get clothing item by id from schema
 router.get("/:itemId", getClothingItemsById);
 

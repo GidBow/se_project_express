@@ -39,22 +39,25 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.statics.findUserByCredentials = function findUserByCredentials (email, password) {
+userSchema.statics.findUserByCredentials = function findUserByCredentials(
+  email,
+  password
+) {
   return this.findOne({ email })
+    .select("+password") // explicitly include the password field in the query result
     .then((user) => {
       if (!user) {
-        return Promise.reject(new Error('BAD_REQUEST'));
+        return Promise.reject(new Error("BAD_REQUEST"));
       }
 
-      return bcrypt.compare(password, user.password)
-        .then((matched) => {
-          if (!matched) {
-            return Promise.reject(new Error('BAD_REQUEST'));
-          }
+      return bcrypt.compare(password, user.password).then((matched) => {
+        if (!matched) {
+          return Promise.reject(new Error("BAD_REQUEST"));
+        }
 
-          return user; // now user is available
-        });
+        return user; // now user is available
+      });
     });
 };
 
-module.exports = mongoose.model('user', userSchema);
+module.exports = mongoose.model("user", userSchema);
