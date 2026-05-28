@@ -6,7 +6,6 @@ const {
   NOT_FOUND,
   SERVER_ERROR,
   UNAUTHORIZED,
-  FORBIDDEN,
 } = require("../utils/errors");
 const User = require("../models/users");
 const { JWT_SECRET } = require("../utils/config");

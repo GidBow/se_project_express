@@ -13,7 +13,7 @@ const {
 // Public route (no auth)
 router.get("/", getClothingItems);
 
-router.use(auth); // apply auth middleware to all routes below
+router.use(auth); // Apply auth middleware to all routes below
 
 // Protected routes (with auth)
 // Get clothing item by id from schema
