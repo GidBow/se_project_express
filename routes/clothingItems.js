@@ -9,14 +9,14 @@ const {
   dislikeItem,
 } = require("../controllers/clothingItems");
 
-// get clothing item from schema
-//Public route (no auth)
+// Get clothing item from schema
+// Public route (no auth)
 router.get("/", getClothingItems);
 
 router.use(auth); // apply auth middleware to all routes below
 
-//protected routes (with auth)
-// get clothing item by id from schema
+// Protected routes (with auth)
+// Get clothing item by id from schema
 router.get("/:itemId", getClothingItemsById);
 
 // add clothing items to the schema

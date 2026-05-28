@@ -48,7 +48,7 @@ const getCurrentUser = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  const { password } = req.body;
+  const { email, password } = req.body;
 
   if (!email || !password) {
     return res.status(BAD_REQUEST).send({
@@ -56,7 +56,7 @@ const createUser = (req, res) => {
     });
   }
 
-  bcryptjs
+  return bcryptjs
     .hash(password, 10)
     .then((hashedPassword) =>
       User.create({ ...req.body, password: hashedPassword })
@@ -164,32 +164,32 @@ const updateProfile = (req, res) => {
       res.send(user);
     })
     .catch((err) => {
-  // Handle invalid ID format
-  if (err.name === "CastError") {
-    return res.status(BAD_REQUEST).send({
-      message: "Invalid user id",
-    });
-  }
+      // Handle invalid ID format
+      if (err.name === "CastError") {
+        return res.status(BAD_REQUEST).send({
+          message: "Invalid user id",
+        });
+      }
 
-  // Handle user not found
-  if (err.name === "DocumentNotFoundError") {
-    return res.status(NOT_FOUND).send({
-      message: "User not found",
-    });
-  }
+      // Handle user not found
+      if (err.name === "DocumentNotFoundError") {
+        return res.status(NOT_FOUND).send({
+          message: "User not found",
+        });
+      }
 
-  // Handle validation errors
-  if (err.name === "ValidationError") {
-    return res.status(BAD_REQUEST).send({
-      message: "Invalid data provided",
-    });
-  }
+      // Handle validation errors
+      if (err.name === "ValidationError") {
+        return res.status(BAD_REQUEST).send({
+          message: "Invalid data provided",
+        });
+      }
 
-  // Generic 500 fallback for unexpected errors
-  return res.status(SERVER_ERROR).send({
-    message: "An error has occurred on the server",
-  });
-});
+      // Generic 500 fallback for unexpected errors
+      return res.status(SERVER_ERROR).send({
+        message: "An error has occurred on the server",
+      });
+    });
 };
 
 module.exports = {
