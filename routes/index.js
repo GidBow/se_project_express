@@ -3,12 +3,13 @@ const { login, createUser } = require("../controllers/users");
 const auth = require("../middlewares/auth");
 const userRouter = require("./users");
 const clothingItemRouter = require("./clothingItems");
+const { getClothingItems } = require("../controllers/clothingItems");
 const { NOT_FOUND } = require("../utils/errors");
 
 // Public routes (no authentication required)
 router.post("/signin", login);
 router.post("/signup", createUser);
-router.get("/", getClothingItems);
+router.get("/items", getClothingItems);
 
 // Apply auth middleware to protected routes below
 router.use(auth);
