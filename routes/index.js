@@ -8,11 +8,10 @@ const { NOT_FOUND } = require("../utils/errors");
 // Public routes (no authentication required)
 router.post("/signin", login);
 router.post("/signup", createUser);
-
+router.get("/", getClothingItems);
 
 // Apply auth middleware to protected routes below
 router.use(auth);
-
 
 // Protected routes
 router.use("/items", clothingItemRouter);

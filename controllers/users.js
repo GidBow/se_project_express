@@ -10,15 +10,6 @@ const {
 const User = require("../models/users");
 const { JWT_SECRET } = require("../utils/config");
 
-const getUsers = (req, res) => {
-  User.find({})
-    .then((users) => res.send(users))
-    .catch(() => {
-      res.status(SERVER_ERROR).send({
-        message: "An error has occurred on the server",
-      });
-    });
-};
 
 const getCurrentUser = (req, res) => {
   User.findById(req.user._id)
@@ -85,31 +76,6 @@ const createUser = (req, res) => {
     });
 };
 
-const deleteUser = (req, res) => {
-  User.findByIdAndDelete(req.params.userId)
-    .orFail()
-    .then((user) => {
-      res.send(user);
-    })
-    .catch((err) => {
-      if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND).send({
-          message: "User not found",
-        });
-      }
-
-      if (err.name === "CastError") {
-        return res.status(BAD_REQUEST).send({
-          message: "Invalid user ID format",
-        });
-      }
-
-      // Default to server error
-      return res.status(SERVER_ERROR).send({
-        message: "An error has occurred on the server",
-      });
-    });
-};
 
 const login = (req, res) => {
   const { email, password } = req.body;
@@ -193,8 +159,6 @@ const updateProfile = (req, res) => {
 
 module.exports = {
   createUser,
-  deleteUser,
-  getUsers,
   getCurrentUser,
   login,
   updateProfile,

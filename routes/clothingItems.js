@@ -9,20 +9,15 @@ const {
   dislikeItem,
 } = require("../controllers/clothingItems");
 
-// Get clothing item from schema
-// Public route (no auth)
-router.get("/", getClothingItems);
-
-router.use(auth); // Apply auth middleware to all routes below
 
 // Protected routes (with auth)
 // Get clothing item by id from schema
 router.get("/:itemId", getClothingItemsById);
 
-// add clothing items to the schema
+// Add clothing items to the schema
 router.post("/", createClothingItem);
 
-// delete clothing item from schema
+// Delete clothing item from schema
 router.delete("/:itemId", deleteClothingItem);
 
 router.put("/:itemId/likes", likeItem);

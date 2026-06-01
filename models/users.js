@@ -34,7 +34,6 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 6,
     select: false, // by default, the password field will not be returned in queries
   },
 });
