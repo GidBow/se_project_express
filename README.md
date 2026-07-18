@@ -11,3 +11,7 @@ Express, MongoDB, Mongoose, ESLint with Airbnb config, Prettier, Nodemon.
 ### Features
 
 User registration and authentication, CRUD operations for clothing items, Like and unlike clothing items, Data validation, Centralized error handling, RESTful API design, MongoDB database integration.
+
+### Link to back end
+
+https://github.com/GidBow/se_project_react.git
